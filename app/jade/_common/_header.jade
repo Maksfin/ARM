@@ -1,0 +1,38 @@
+header.header
+	.header__top
+		.container
+			.row
+				.col-md-2.col-sm-3.col-xs-4
+					a(href="#" title="На главную").logo
+						img(src="../img/logo/logo.png" alt="Armata Financical Group").logo__img
+						span.logo__text Armata Financical Group
+				.col-lg-7.col-md-8.hidden-sm
+					+ul('navigation', navigation, 0, false)
+				.col-lg-2.col-lg-offset-1.col-md-2.col-sm-8.col-xs-6
+					a(href="tel:+7495009956").header__phone-link
+						span.header__phone-num +7 (495) 00-99-56
+				.col-sm-1.col-xs-2.hidden-md.hidden-lg
+					a(href="#" class="toggle-nav" title="Меню")
+						span
+	.header__middle
+		.container
+			.row
+				.col-md-8
+					.header__left
+						h1.header__left-title Armata Financical Group
+						+ul('menu-title', titleMenu, -1, true)
+				.col-md-4
+					.header__right
+						form(action="").form
+							.form__inner
+								.form__title
+								p.form__desc
+									| Оставьте заявку и мы свяжемся с вами в течение 15 минут в рабочее время с 10:00 до 18:00 c пн-пт.
+								label.form__label
+									span.form__label-title
+									input(type="text" name="name" required).form__label-input
+								label.form__label
+									span.form__label-title
+									input(type="tel" name="name" required).form__label-input
+								.form__submit-wrap
+									input(type="submit" value="Отправить").form__submit-btn		

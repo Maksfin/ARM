@@ -1,0 +1,39 @@
+// Initialization 
+@import 'compass';
+
+// Normalize
+@import '_base/_normalize';
+
+// Base settings
+@import '_helpers/_mixins';
+@import '_helpers/_vars';
+@import '_base/_fonts';
+
+// ---------- Sprites general elements ---------------
+// $general-sprite: sprite-map('elements/*.png', $spacing: 70px);
+
+
+// ---------- Plugins ----------
+@import '_plugins/_bootstrap-grid';
+
+// Base settings
+@import '_base/_overall';
+
+// ---------- Widgets ----------
+// @import '_widgets/_select';
+// @import '_widgets/_slider';
+ // @import '_plugins/_bxslider';
+
+
+// ---------- Section ----------
+@import '_common/_header';
+// @import '_common/_footer';
+// @import '_common/_form';
+// @import '_common/_popup';
+// @import '_common/_navigation';
+// @import '_common/_breadcrumbs';
+// @import '_common/_sidebar';
+// @import '_common/_pagination';
+
+// ---------- Media ----------
+@import '_media/_queries';
