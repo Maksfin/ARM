@@ -113,7 +113,15 @@
 	transition:      $transition;
 }
 
-@mixin transform ($axis: "both") {
+@mixin transform ($transform...) {
+	-webkit-transform: $transform;
+	-moz-transform:    $transform;
+	-ms-transform:     $transform;
+	-o-transform:      $transform;
+	transform:      $transform;
+}
+
+@mixin transformCenter ($axis: "both") {
   position: absolute;
   @if $axis == "y" {
     top: 50%;
