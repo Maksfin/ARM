@@ -1,15 +1,24 @@
 /* Large Devices, Wide Screens */
-@media only screen and (max-width : 1200px) {
-	body {
+@media only screen and (max-width : 1200px) and (min-width : 992px) {
+	html {
+		font-size: 16px;
+	}
+
+	.header__phone-link {
 		font-size: 16px;
 	}
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
-	body {
+	html {
 		font-size: 14px;
 	}
+
+	.main__left-title {
+		font-size: 4.3rem;
+	}
+	
 }
 
 /* Small Devices, Tablets */
@@ -37,25 +46,37 @@
 		animation: none !important;
 	}
 
-	body {
+	html {
 		font-size: 12px;
 	}
+
+	.main__left-title {
+		font-size: 4rem;
+	}
 }
+
+@media only screen and (max-width : 608px) {
+
+	.main__left-title {
+		display: inline;
+		padding-bottom: 0;
+	}
+}	
 
 /* Extra Small Devices, Phones */
 @media only screen and (max-width : 480px) {
 
-	body {
-		font-size: 10px;
+	html{
+		font-size: 11px;
 	}
 }
 
 /* Custom, iPhone Retina */
 @media only screen and (max-width : 320px) {
-	.header__left-title {
-		font-size: 2.4em;	
-	}
+	
 }
+
+
 
 /*==========  Mobile First Method  ==========*/
 
@@ -67,22 +88,19 @@
 
 /* Extra Small Devices, Phones */
 @media only screen and (min-width : 480px) {
-	.header__left-title {
-		font-size: 3.7em;
-	}
+
 }
 
 
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
-
+	
 }
 
 
 /* Medium Devices, Desktops */
 @media only screen and (min-width : 992px) {
-
-	/**/
+	
 }
 
 

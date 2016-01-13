@@ -1,28 +1,29 @@
-header.header
-	.header__top
+section.main
+	header.header
 		.container
 			.row
 				.col-md-2.col-sm-3.col-xs-4
 					a(href="#" title="На главную").logo
 						img(src="../img/logo/logo.png" alt="Armata Financical Group").logo__img
 						span.logo__text Armata Financical Group
-				.col-lg-7.col-md-8.hidden-sm
+				.col-lg-7.col-md-8
 					+ul('navigation', navigation, 0, false)
-				.col-lg-2.col-lg-offset-1.col-md-2.col-sm-8.col-xs-6
+				.col-lg-2.col-lg-offset-1.col-md-2.col-sm-7.col-xs-6
 					a(href="tel:+7495009956").header__phone-link
 						span.header__phone-num +7 (495) 00-99-56
-				.col-sm-1.col-xs-2.hidden-md.hidden-lg
-					a(href="#" class="toggle-nav" title="Меню")
-						span
-	.header__middle
+				.col-sm-2.col-xs-2.hidden-md.hidden-lg
+					.toggle
+						a(href="#" class="toggle__nav" title="Меню")
+							span
+	.main__content
 		.container
 			.row
 				.col-md-8
-					.header__left
-						h1.header__left-title Armata Financical Group
+					.main__left
+						h1.main__left-title Armata Financical Group
 						+ul('menu-title', titleMenu, -1, true)
 				.col-md-4
-					.header__right
+					.main__right
 						form(action="").form
 							.form__inner
 								.form__title Заявка:
@@ -35,4 +36,4 @@ header.header
 									span.form__label-title Ваш телефон:
 									input(type="tel" name="name" required).form__label-input
 								.form__submit-wrap
-									input(type="submit" value="Отправить").form__submit-btn
+									input(type="submit" value="Отправить").buttons

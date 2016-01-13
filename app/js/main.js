@@ -1,17 +1,9 @@
 $(document).ready(function() {
-	
-	(function() {
-		var
-			toggleNav = $('.toggle-nav');
-			toggleNav.on('click', function() {
-				toggleNav.toggleClass('on');
 
-			})
-	})();
-
-	if($('.popup').length) {
-		Popup.init();
+	if($('.navigation').length) {
+		mainModule.init();
 	}
+	
 	
 	//SVG Fallback
 	if(!Modernizr.svg) {
@@ -36,18 +28,33 @@ $(document).ready(function() {
 
 
 // Модуль 
-var Popup = (function() {
-	var
-		_popups = $('.popup');
+var mainModule = (function() {
+	
+	var _navShow = function($this) {
+		var
+			navList = $('.navigation'),
+			body = $('body'),
+			duration = 500;
 
-	var _close = function() {
-		_popups.hide();
+		
+		if(!$this.hasClass('active')) {
+			navList.animate({'right' : '0px'}, duration);
+			$this.addClass('active');
+			body.addClass('nav__opened');
+
+		} else {
+			navList.animate({'right' : '-420px'}, duration);
+			$this.removeClass('active');
+			body.removeClass('nav__opened');
+		}
 	};
+
 
 	return {
 		init: function() {
-			$('.').on('click', function(e) {
+			$('.toggle__nav').on('click', function(e) {
 				e.preventDefault();
+				_navShow($(this));
 			});
 		}
 	};
