@@ -38,14 +38,14 @@ var mainModule = (function() {
 
 		
 		if(!$this.hasClass('active')) {
-			navList.animate({'right' : '0px'}, duration);
+			navList.addClass('showme');
 			$this.addClass('active');
-			body.addClass('nav__opened');
+			body.addClass('nav-opened');
 
 		} else {
-			navList.animate({'right' : '-420px'}, duration);
+			navList.removeClass('showme');
 			$this.removeClass('active');
-			body.removeClass('nav__opened');
+			body.removeClass('nav-opened');
 		}
 	};
 

@@ -28,13 +28,18 @@ body {
 	position: relative;
 	margin-top: -$footer-height;
 	height: $footer-height;
-	min-width: $container-width + 20;
 }
 // .container {
 // 	width: $container-width;
 // 	margin: 0 auto;
 // 	position: relative;
 // }
+
+img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
 
 table {
 	border-collapse: collapse;
@@ -55,5 +60,17 @@ ul {
 p,h1,h2,h3,h4,h5,h6 {
     padding: 0;
     margin: 0;
+}
+
+    body * {
+    box-sizing: border-box;
+}
+
+a:hover,a:focus,a:active {
+    outline: none
+}
+
+button:hover,button:focus,button:active {
+    outline: none
 }
 

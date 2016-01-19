@@ -181,6 +181,7 @@
 	}
 }
 
+// Responsive units REM
 @mixin fontSize($sizeValue: 1.6) {
   font-size: ($sizeValue * 10) + px;
   font-size: $sizeValue + rem;
@@ -193,13 +194,13 @@
 	}
 }
 
-// Responsive units
+// Responsive units EM
 @function em($target, $context: $base-font-size) {
 	@if $target == 0 { @return 0 }
 	@return $target / $context + 0em;
 }
 
-// Transfer from PX in REM
+/*-------------------    Transfer from PX in REM   ------------------------*/
 $rem-baseline: 16px !default;
 $rem-fallback: true !default;
 $rem-px-only: false !default;
@@ -264,4 +265,70 @@ $rem-px-only: false !default;
       }
     }
   }
+}
+
+
+/* -------------------------    SVG SPRITES      -------------------------*/
+@import '../img/icons/src/_sprite';
+
+
+@function mq-px2rem($px, $rem-baseline: 16px) {
+    @if unitless($px) {
+        @warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels.";
+        @return mq-px2rem($px + 0px); // That may fail.
+    } @else if unit($px) == rem {
+        @return $px;
+    }
+    @return ($px / $rem-baseline) * 1rem;
+}
+
+
+// Устанавливает переменную для основных данных спрайта (путь файла, размеры и др.)
+$sprite: map-get($icons, sprite) !default;
+
+
+// Получение атрибутов из sass карты
+@function sprite-attr($icon, $attr) {
+    $icon: map-get($icons, $icon);
+    @return map-get($icon, $attr);
+}
+
+@function icon-attr($icon) {
+    $attr: (
+        width: sprite-attr($icon, width),
+        height: sprite-attr($icon, height),
+        x: sprite-attr($icon, backgroundX),
+        y: sprite-attr($icon, backgroundY)
+    );
+
+    @return $attr;
+}
+
+// Установка фона и размера
+%sprite {
+    display: inline-block;
+    background-image: url(map-get($sprite, svgPath));
+    background-size: mq-px2rem(map-get($sprite, width)) mq-px2rem(map-get($sprite, height));
+}
+
+// Для использования с gulp спрайт плагином
+@mixin sprite($icon, $type: all) {
+    @if $type == all {
+        // Shares the backgrounds
+        @extend %sprite;
+    }
+
+    $iconMap: icon-attr($icon);
+
+    // Вывод размеров в rem
+    @if $type == all or $type == size {
+        width: mq-px2rem(map-get($iconMap, width) + 1);
+        height: mq-px2rem(map-get($iconMap, height) + 1);
+    }
+
+    // Вывод положения фона в rem
+    @if $type == all or $type == bg {
+        background-position: mq-px2rem(map-get($iconMap, x)) mq-px2rem(map-get($iconMap, y));
+    }
+
 }

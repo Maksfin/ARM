@@ -1,3 +1,21 @@
+// PATHS для SVG Sprites
+var basePaths = {
+  src: '%sprite/'
+};
+var paths = {
+  images: {
+    src: basePaths.src + 'img/'
+  },
+  sprite: {
+    src: basePaths.src + 'img/*',
+    svg: 'sprite.svg',
+    css:  basePaths.src + 'sass/src/_sprite.scss'
+  },
+  templates: {
+    src: basePaths.src + 'tpl/'
+  }
+};
+
 //  Создание переменых
 var gulp = require("gulp"),          
     jade = require('gulp-jade'),
@@ -13,11 +31,46 @@ var gulp = require("gulp"),
     imagemin = require('gulp-imagemin'),
     browserSync = require('browser-sync'),
     ftp = require('vinyl-ftp'),
+    svgSprite = require('gulp-svg-sprite'),
+    svgmin = require('gulp-svgmin'),
+    autoprefixer = require('gulp-autoprefixer');
     reload = browserSync.reload;
 
 // ==========================================================
 // ==============  Локальная разработка  ============
 // ==========================================================
+
+
+// Cоздает SVG Sprite
+gulp.task('svgSprite', function () {
+    return gulp.src(paths.sprite.src)
+        .pipe(svgmin())
+        .pipe(svgSprite({
+            shape: {
+              spacing: {
+                padding: 5
+              }
+            },
+            mode: {
+              css: {
+                dest: "./",
+                layout: "diagonal",
+                sprite: paths.sprite.svg,
+                bust: false,
+                render: {
+                  scss: {
+                    dest: "src/_sprite.scss",
+                    template: "%sprite/tpl/sprite-template.scss"
+                  }
+                }
+              }
+            },
+            variables: {
+              mapname: "icons"
+            }
+          }))
+          .pipe(gulp.dest('app/img/icons'));
+});
 
 // Компилируем Jade в html
 gulp.task('jade', function() {
@@ -31,17 +84,28 @@ gulp.task('jade', function() {
     .pipe(reload({stream: true}));
 });
 
-// Sccs - Compass
+// Компилируем Sccs в css
 gulp.task('compass', function() {
   gulp.src('app/sass/**/*.scss')
     .pipe(plumber())
     .pipe(compass({
       config_file: 'config.rb', 
-      css: 'app/css',
+      css: 'app/sass',
       sass: 'app/sass'
     }))
-    .pipe(gulp.dest('app/css'));
+    .pipe(gulp.dest('app/sass'));
 });
+
+// Проставляем префиксы для 7 последних версий
+gulp.task('autoprefixer', function () {
+  return gulp.src('app/sass/main.css')
+    .pipe(autoprefixer({
+      browsers: ['last 7 versions'],
+      cascade: false
+    }))
+    .pipe(gulp.dest('app/css/'));
+});
+
 
 // Запускаем локальный сервер (только после компиляции jade)
 gulp.task('server', function () {
@@ -64,20 +128,22 @@ gulp.task('wiredep', function () {
       .pipe(gulp.dest('app/'));
 });
 
-// слежка и запуск задач
+// Слежка и запуск задач
 gulp.task('watch', function () {
   gulp.watch('app/jade/**/*.jade', ['jade']);
   gulp.watch('app/sass/**/*.scss', ['compass']);
-  gulp.watch('bower.json', ['wiredep']);
+  // gulp.watch('bower.json', ['wiredep']);
+  gulp.watch('%sprite/img/*', ['svgSprite']);
   gulp.watch([
     'app/*.html',
     'app/js/**/*.js',
-    'app/css/**/*.css'
+    'app/css/**/*.css',
+    '%sprite/img/*'
   ]).on('change', reload);
 });
 
 // Задача по-умолчанию
-gulp.task('default', ['jade', 'compass', 'watch', 'server']);
+gulp.task('default', ['svgSprite', 'jade', 'compass', 'watch', 'server']);
 
 // Более наглядный вывод ошибок
 var log = function (error) {
@@ -115,7 +181,7 @@ gulp.task('useref', function () {
   return gulp.src('app/*.html')
     .pipe(assets)
     .pipe(gulpif('*.js', uglify()))
-    .pipe(gulpif('*.css', minifyCss({compatibility: 'ie8'}))) //минификация с поддержкой ie 8
+    .pipe(gulpif('*.css', minifyCss()))
     .pipe(assets.restore())
     .pipe(useref())
     .pipe(gulp.dest('dist'));
@@ -124,13 +190,14 @@ gulp.task('useref', function () {
 // Перенос шрифтов
 gulp.task('fonts', function() {
   gulp.src('app/fonts/*')
-    .pipe(filter(['*.eot','*.svg','*.ttf','*.woff','*.woff2']))
+    .pipe(filter(['*.eot', '*.svg', '*.ttf', '*.woff', '*.woff2']))
     .pipe(gulp.dest('dist/fonts/'));
 });
 
 // Картинки
 gulp.task('images', function () {
   return gulp.src('app/img/**/*')
+    .pipe(filter(['*.png', '*.svg', '*.jpg', '*.gif']))
     .pipe(imagemin({
       progressive: true,
       interlaced: true
